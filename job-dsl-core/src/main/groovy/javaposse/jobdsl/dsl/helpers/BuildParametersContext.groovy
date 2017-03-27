@@ -388,6 +388,16 @@ class BuildParametersContext extends AbstractExtensibleContext {
                 }
     }
 
+    void passwordParam(String parameterName, String description = null) {
+        checkParameterName(parameterName)
+
+        buildParameterNodes[parameterName] = new NodeBuilder().
+                'hudson.model.PasswordParameterDefinition' {
+                    name(parameterName)
+                    delegate.description(description ?: '')
+                }
+    }
+
     private checkParameterName(String name) {
         checkNotNullOrEmpty(name, 'parameterName cannot be null')
         checkArgument(!buildParameterNodes.containsKey(name), "parameter ${name} already defined")
